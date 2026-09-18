@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GuinéeServices — Prototype</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#eef3f9;color:#14213d}
+.phone{width:min(390px,100vw);min-height:780px;margin:20px auto;background:#fff;border-radius:28px;overflow:hidden;box-shadow:0 12px 35px #0002;position:relative}
+header{background:#075fe8;color:#fff;padding:22px 20px 18px}.brand{font-size:24px;font-weight:800}.small{font-size:13px;opacity:.85;margin-top:5px}
+main{padding:18px 18px 90px}.search{background:#fff;border:1px solid #d8e0eb;border-radius:14px;padding:14px;margin-top:12px;color:#718096}
+h2{font-size:20px;margin:20px 0 12px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card{border:1px solid #e1e7ef;border-radius:16px;padding:16px;background:#fff}.icon{font-size:27px}.name{font-weight:700;margin-top:8px}.muted{font-size:12px;color:#718096;margin-top:4px}
+.btn{display:block;width:100%;border:0;border-radius:13px;padding:14px;background:#075fe8;color:#fff;font-weight:700;margin-top:16px;font-size:15px}.btn.alt{background:#eef4ff;color:#075fe8}
+.input{width:100%;padding:14px;border:1px solid #d8e0eb;border-radius:12px;margin:7px 0;font-size:15px}
+.provider{display:flex;gap:12px;padding:14px;border:1px solid #e1e7ef;border-radius:15px;margin:10px 0;align-items:center}.avatar{width:50px;height:50px;border-radius:50%;background:#dce9ff;display:grid;place-items:center;font-size:24px}.grow{flex:1}
+.bottom{position:absolute;bottom:0;left:0;right:0;height:70px;background:#fff;border-top:1px solid #e4e8ef;display:flex;justify-content:space-around;align-items:center}.nav{font-size:11px;text-align:center;color:#6b7280;cursor:pointer}.nav b{display:block;font-size:20px;color:#075fe8;margin-bottom:2px}
+.screen{display:none}.screen.active{display:block}.back{cursor:pointer;color:#075fe8;font-weight:700;margin-bottom:12px}
+.price{font-size:22px;font-weight:800;color:#075fe8}.check{font-size:58px;text-align:center;margin:30px 0 10px}
+</style>
+</head>
+<body>
+<div class="phone">
+
+<section id="home" class="screen active">
+<header><div class="brand">🏠 GuinéeServices</div><div class="small">Vos services locaux, en un clic · Conakry ▾</div></header>
+<main>
+<div class="search" onclick="show('search')">🔎 Quel service cherchez-vous ?</div>
+<h2>Que recherchez-vous ?</h2>
+<div class="grid">
+<div class="card" onclick="show('search')"><div class="icon">🔧</div><div class="name">Plomberie</div><div class="muted">Installation · Réparation</div></div>
+<div class="card" onclick="show('search')"><div class="icon">⚡</div><div class="name">Électricité</div><div class="muted">Dépannage · Installation</div></div>
+<div class="card" onclick="show('search')"><div class="icon">🧱</div><div class="name">Maçonnerie</div><div class="muted">Construction · Rénovation</div></div>
+<div class="card" onclick="show('search')"><div class="icon">🧹</div><div class="name">Nettoyage</div><div class="muted">Maison · Bureau</div></div>
+</div>
+<h2>Pourquoi nous ?</h2><div class="card">🛡️ <b>Professionnels vérifiés</b><br><span class="muted">Trouvez des prestataires près de vous.</span></div>
+</main><nav></nav>
+</section>
+
+<section id="search" class="screen">
+<header><div class="brand">Recherche</div><div class="small">Trouvez un professionnel à Conakry</div></header>
+<main><div class="back" onclick="show('home')">← Retour</div>
+<input class="input" value="Plombier" placeholder="Ex. plombier">
+<div class="provider"><div class="avatar">👨🏾‍🔧</div><div class="grow"><b>Diallo Plomberie</b><div class="muted">⭐ 4,8 · 124 avis · Vérifié</div><div class="muted">À partir de 10 000 GNF</div></div><button class="btn" style="width:auto;margin:0;padding:10px 12px" onclick="show('profile')">Voir</button></div>
+<div class="provider"><div class="avatar">👨🏾‍🔧</div><div class="grow"><b>Sékou Services</b><div class="muted">⭐ 4,6 · 98 avis · Vérifié</div><div class="muted">À partir de 12 000 GNF</div></div><button class="btn" style="width:auto;margin:0;padding:10px 12px" onclick="show('profile')">Voir</button></div>
+</main>
+</section>
+
+<section id="profile" class="screen">
+<header><div class="brand">Profil prestataire</div></header>
+<main><div class="back" onclick="show('search')">← Retour</div>
+<div class="card" style="text-align:center"><div class="avatar" style="margin:auto;width:80px;height:80px;font-size:38px">👨🏾‍🔧</div><h2>Diallo Plomberie</h2><div>⭐ 4,8 (124 avis) · 🛡️ Vérifié</div><p class="muted">Spécialiste en réparation et installation sanitaire à Conakry.</p></div>
+<h2>Services</h2><div class="card">Réparation de fuite <b style="float:right">10 000 GNF</b></div>
+<div class="card">Installation sanitaire <b style="float:right">25 000 GNF</b></div>
+<button class="btn" onclick="show('booking')">📅 Réserver</button>
+</main></section>
+
+<section id="booking" class="screen">
+<header><div class="brand">Réservation</div></header>
+<main><div class="back" onclick="show('profile')">← Retour</div>
+<div class="card"><b>Réparation de fuite d'eau</b><p class="muted">Diallo Plomberie · Conakry</p><div class="price">10 000 GNF</div></div>
+<h2>Date et heure</h2><input class="input" type="date"><input class="input" type="time">
+<h2>Adresse</h2><input class="input" placeholder="Votre quartier / adresse">
+<button class="btn" onclick="show('payment')">Continuer vers le paiement</button>
+</main></section>
+
+<section id="payment" class="screen">
+<header><div class="brand">Paiement</div><div class="small">Paiement sécurisé</div></header>
+<main><div class="back" onclick="show('booking')">← Retour</div>
+<div class="card"><b>Réparation de fuite</b><div class="price" style="margin-top:8px">10 000 GNF</div></div>
+<h2>Choisir un moyen de paiement</h2>
+<div class="card">🟠 Orange Money</div><div class="card">🟡 MTN Money</div><div class="card">💳 Carte bancaire</div>
+<button class="btn" onclick="show('success')">Payer 10 000 GNF</button>
+</main></section>
+
+<section id="success" class="screen">
+<header><div class="brand">Confirmation</div></header>
+<main style="text-align:center"><div class="check">✓</div><h2>Réservation confirmée !</h2><p class="muted">Diallo Plomberie a reçu votre demande. Vous recevrez une notification avant l'intervention.</p>
+<button class="btn" onclick="show('reservations')">Voir mes réservations</button><button class="btn alt" onclick="show('home')">Retour à l'accueil</button></main>
+</section>
+
+<section id="reservations" class="screen">
+<header><div class="brand">Mes réservations</div></header>
+<main><div class="back" onclick="show('home')">← Accueil</div>
+<div class="card"><b>Diallo Plomberie</b><p class="muted">Réparation de fuite d'eau · Aujourd'hui</p><span style="color:#16803b;font-weight:700">● Confirmée</span><div class="price">10 000 GNF</div></div>
+</main></section>
+
+<nav class="bottom">
+<div class="nav" onclick="show('home')"><b>⌂</b>Accueil</div>
+<div class="nav" onclick="show('search')"><b>⌕</b>Recherche</div>
+<div class="nav" onclick="show('reservations')"><b>▣</b>Réservations</div>
+<div class="nav" onclick="show('profile')"><b>●</b>Profil</div>
+</nav>
+</div>
+<script>
+function show(id){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0)}
+</script>
+</body>
+</html>
