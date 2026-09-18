@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GuinéeServices — V5</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#edf2f8;color:#15233b;font-family:Arial,sans-serif}
+.phone{width:min(410px,100vw);min-height:850px;margin:16px auto;background:#fff;border-radius:28px;overflow:hidden;box-shadow:0 12px 35px #0002;position:relative}
+.screen{display:none}.screen.active{display:block}header{background:#075fe8;color:#fff;padding:21px}
+.brand{font-size:23px;font-weight:800}.small{font-size:12px;opacity:.88;margin-top:5px}
+main{padding:17px 18px 95px}.hero{background:#075fe8;color:#fff;padding:18px;border-radius:17px}
+.search,.card,.provider,.stat{border:1px solid #dfe6ef;border-radius:15px;background:#fff;padding:14px}
+.search{color:#718096;cursor:pointer;margin-top:12px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.card{margin:9px 0}.icon{font-size:27px}.name{font-weight:700;margin-top:7px}h2{font-size:19px;margin:19px 0 11px}
+.muted{font-size:12px;color:#718096;margin-top:4px}.btn{border:0;border-radius:12px;padding:13px 15px;background:#075fe8;color:white;font-weight:700;width:100%;margin-top:12px;cursor:pointer}
+.btn.alt{background:#eef4ff;color:#075fe8}.input,textarea,select{width:100%;padding:13px;border:1px solid #d5deea;border-radius:11px;margin:6px 0;font-size:14px}
+.back{color:#075fe8;font-weight:700;cursor:pointer;margin-bottom:12px}.provider{display:flex;gap:11px;align-items:center;margin:9px 0}
+.avatar{width:50px;height:50px;border-radius:50%;background:#dce9ff;display:grid;place-items:center;font-size:23px}.grow{flex:1}
+.badge{display:inline-block;padding:5px 8px;border-radius:10px;background:#e9f8ee;color:#14713a;font-size:11px;font-weight:700}
+.pending{background:#fff2dc;color:#9a5c00}.price{font-size:20px;font-weight:800;color:#075fe8}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat strong{display:block;font-size:21px;margin-top:5px}
+.lock{text-align:center;font-size:55px;margin:15px 0}.private{background:#f7f9fc;border:1px solid #dfe6ef;border-radius:14px;padding:13px}
+.bottom{position:absolute;bottom:0;left:0;right:0;height:70px;background:#fff;border-top:1px solid #e4e8ef;display:flex;justify-content:space-around;align-items:center}
+.nav{font-size:10px;text-align:center;color:#657187;cursor:pointer}.nav b{display:block;font-size:20px;color:#075fe8}
+</style>
+</head>
+<body><div class="phone">
+
+<section id="home" class="screen active"><header><div class="brand">🏠 GuinéeServices</div><div class="small">Conakry · Trouvez un atelier ou professionnel</div></header><main>
+<div class="hero"><b>Bienvenue 👋</b><div class="small">Des ateliers partenaires vérifiés, près de vous.</div></div>
+<div class="search" onclick="show('search')">🔎 Rechercher un service, atelier ou quartier</div>
+<h2>Nos services</h2><div class="grid">
+<div class="card" onclick="show('search')"><div class="icon">🔧</div><div class="name">Plomberie</div><div class="muted">Réparation · Installation</div></div>
+<div class="card" onclick="show('search')"><div class="icon">🚗</div><div class="name">Mécanique</div><div class="muted">Entretien · Dépannage</div></div>
+<div class="card" onclick="show('search')"><div class="icon">⚡</div><div class="name">Électricité</div><div class="muted">Dépannage · Installation</div></div>
+<div class="card" onclick="show('search')"><div class="icon">❄️</div><div class="name">Climatisation</div><div class="muted">Entretien · Réparation</div></div></div>
+<h2>Vous avez un atelier ?</h2><div class="card">🏢 <b>Devenir atelier partenaire</b><div class="muted">Recevez de nouveaux clients grâce à GuinéeServices.</div><button class="btn" onclick="show('partner')">Devenir partenaire</button></div>
+</main></section>
+
+<section id="search" class="screen"><header><div class="brand">Recherche</div><div class="small">Ateliers partenaires à Conakry</div></header><main>
+<div class="back" onclick="show('home')">← Accueil</div><input id="q" class="input" placeholder="Service recherché"><input class="input" placeholder="Quartier : Matam, Kipé, Lambanyi...">
+<div class="provider"><div class="avatar">🏢</div><div class="grow"><b>Atelier Diallo Auto</b><div class="muted">🚗 Mécanique · ⭐ 4,8</div><span class="badge">✓ Partenaire vérifié</span></div><button class="btn" style="width:auto;margin:0" onclick="show('workshop')">Voir</button></div>
+<div class="provider"><div class="avatar">🔧</div><div class="grow"><b>Diallo Plomberie</b><div class="muted">🔧 Plomberie · ⭐ 4,7</div><span class="badge">✓ Partenaire vérifié</span></div><button class="btn" style="width:auto;margin:0" onclick="show('workshop')">Voir</button></div>
+</main></section>
+
+<section id="workshop" class="screen"><header><div class="brand">Atelier partenaire</div></header><main>
+<div class="back" onclick="show('search')">← Retour</div><div class="card" style="text-align:center"><div class="avatar" style="margin:auto;width:75px;height:75px;font-size:35px">🏢</div><h2>Atelier Diallo Auto</h2><div>⭐ 4,8 · 156 avis</div><p class="muted">✓ Partenaire vérifié · 📍 Matam, Conakry</p></div>
+<h2>Services</h2><div class="card">Diagnostic véhicule <b style="float:right">100 000 GNF</b></div>
+<div class="card">Vidange <b style="float:right">150 000 GNF</b></div><button class="btn" onclick="show('booking')">📅 Faire une demande</button>
+</main></section>
+
+<section id="booking" class="screen"><header><div class="brand">Votre demande</div><div class="small">Votre demande est enregistrée sur cet appareil.</div></header><main>
+<div class="back" onclick="show('workshop')">← Retour</div><div class="card"><b>Diagnostic véhicule</b><p class="muted">Atelier souhaité : Atelier Diallo Auto</p><div class="price">100 000 GNF</div></div>
+<input id="clientName" class="input" placeholder="Nom complet"><input id="clientPhone" class="input" placeholder="Numéro de téléphone"><input id="clientAddress" class="input" placeholder="Quartier / adresse"><input id="clientDate" class="input" type="date"><textarea id="clientNeed" rows="3" placeholder="Décrivez votre besoin"></textarea>
+<button class="btn" onclick="sendRequest()">Envoyer ma demande</button></main></section>
+
+<section id="clientSent" class="screen"><header><div class="brand">Demande reçue</div></header><main style="text-align:center">
+<div class="lock">📨</div><h2>Votre demande a été enregistrée</h2><p id="requestRef" class="muted"></p><p class="muted">GuinéeServices examinera votre demande avant de contacter l'atelier.</p>
+<button class="btn" onclick="show('reservations')">Voir mes demandes</button></main></section>
+
+<section id="reservations" class="screen"><header><div class="brand">Mes demandes</div></header><main>
+<div class="back" onclick="show('home')">← Accueil</div><div id="requestList"></div>
+</main></section>
+
+<section id="partner" class="screen"><header><div class="brand">Devenir partenaire</div><div class="small">Votre demande est enregistrée sur cet appareil.</div></header><main>
+<div class="back" onclick="show('home')">← Retour</div><input id="pName" class="input" placeholder="Nom de l'atelier"><input id="pManager" class="input" placeholder="Nom du responsable"><input id="pPhone" class="input" placeholder="Numéro professionnel"><input id="pAddress" class="input" placeholder="Quartier / adresse">
+<select id="pService"><option>Service principal</option><option>Mécanique</option><option>Plomberie</option><option>Électricité</option><option>Climatisation</option><option>Autre</option></select>
+<textarea id="pInfo" rows="3" placeholder="Présentez votre atelier"></textarea><button class="btn" onclick="sendPartner()">Envoyer la demande de partenariat</button></main></section>
+
+<section id="partnerSent" class="screen"><header><div class="brand">Demande envoyée</div></header><main style="text-align:center"><div class="lock">🏢</div><h2>Dossier enregistré</h2><p class="muted">La demande de partenariat est conservée sur cet appareil dans cette version.</p><button class="btn" onclick="show('home')">Accueil</button></main></section>
+
+<section id="adminLogin" class="screen"><header><div class="brand">🔐 Connexion privée</div><div class="small">Espace administrateur</div></header><main>
+<div class="lock">🔒</div><h2 style="text-align:center">Accès réservé</h2><input id="adminUser" class="input" placeholder="Identifiant"><input id="adminPass" class="input" type="password" placeholder="Mot de passe"><button class="btn" onclick="adminLogin()">Se connecter</button><p id="loginMsg" class="muted" style="text-align:center"></p>
+</main></section>
+
+<section id="admin" class="screen"><header><div class="brand">👑 Administration</div><div class="small">MOHAMED BACHIR CAMARA · Propriétaire</div></header><main>
+<div class="hero"><b>Boîte de réception GuinéeServices</b><div class="small">Demandes enregistrées sur cet appareil</div></div>
+<h2>📥 Demandes clients</h2><div id="adminRequests"></div>
+<h2>📊 Tableau de bord</h2><div class="stats"><div class="stat">Demandes<strong id="countRequests">0</strong><div class="muted">enregistrées</div></div><div class="stat">Partenariats<strong id="countPartners">0</strong><div class="muted">dossiers</div></div></div>
+<button class="btn danger" onclick="logout()">Se déconnecter</button>
+</main></section>
+
+<nav class="bottom"><div class="nav" onclick="show('home')"><b>⌂</b>Accueil</div><div class="nav" onclick="show('search')"><b>⌕</b>Recherche</div><div class="nav" onclick="show('reservations')"><b>▣</b>Demandes</div><div class="nav" onclick="show('adminLogin')"><b>🔐</b>Admin</div></nav>
+</div>
+
+<script>
+const get=(k,d=[])=>JSON.parse(localStorage.getItem(k)||JSON.stringify(d));
+const set=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');if(id==='reservations')renderRequests();if(id==='admin')renderAdmin();window.scrollTo(0,0)}
+function sendRequest(){
+ const r=get('gs_requests'); const ref='GS-'+String(Date.now()).slice(-6);
+ r.unshift({ref,name:clientName.value,phone:clientPhone.value,address:clientAddress.value,date:clientDate.value,need:clientNeed.value,service:'Diagnostic véhicule',atelier:'Atelier Diallo Auto',status:'À examiner'});
+ set('gs_requests',r); requestRef.textContent='Référence : '+ref; show('clientSent');
+}
+function renderRequests(){
+ const r=get('gs_requests'); requestList.innerHTML=r.length?r.map(x=>`<div class="card"><b>${x.ref} · ${x.service}</b><p class="muted">${x.atelier} · ${x.address||'Adresse non précisée'}</p><span class="badge pending">${x.status}</span></div>`).join(''):'<div class="card">Aucune demande enregistrée.</div>';
+}
+function sendPartner(){
+ const r=get('gs_partners');r.unshift({name:pName.value,manager:pManager.value,phone:pPhone.value,address:pAddress.value,service:pService.value,info:pInfo.value,status:'À vérifier'});set('gs_partners',r);show('partnerSent');
+}
+function adminLogin(){
+ if(adminUser.value.trim()==='MOHAMED BACHIR CAMARA' && adminPass.value==='DEMO-ADMIN'){loginMsg.textContent='';show('admin')}
+ else loginMsg.textContent='Identifiants incorrects.';
+}
+function renderAdmin(){
+ const r=get('gs_requests'),p=get('gs_partners');countRequests.textContent=r.length;countPartners.textContent=p.length;
+ adminRequests.innerHTML=r.length?r.map(x=>`<div class="card"><b>${x.ref} · ${x.service}</b><p class="muted">Client : ${x.name||'Non renseigné'} · 📞 ${x.phone||'Non renseigné'}<br>📍 ${x.address||'Non renseignée'}</p><span class="badge pending">${x.status}</span></div>`).join(''):'<div class="card">Aucune demande pour le moment.</div>';
+}
+function logout(){show('home');adminUser.value='';adminPass.value=''}
+</script>
+</body></html>
