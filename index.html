@@ -109,4 +109,16 @@ function renderAdmin(){
 }
 function logout(){show('home');adminUser.value='';adminPass.value=''}
 </script>
-</body></html>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = https://wstnhrloguuprjdbywqp.supabase.co/rest/v1/;
+const SUPABASE_KEY = sb_publishable_oBhDmOUB4QTrlDAk9LG5mg_u1naesZE;
+
+const supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+console.log("GuinéeServices connecté à Supabase ✅");
+</script></body></html>
