@@ -88,11 +88,31 @@ main{padding:17px 18px 95px}.hero{background:#075fe8;color:#fff;padding:18px;bor
 const get=(k,d=[])=>JSON.parse(localStorage.getItem(k)||JSON.stringify(d));
 const set=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');if(id==='reservations')renderRequests();if(id==='admin')renderAdmin();window.scrollTo(0,0)}
-function sendRequest(){
- const r=get('gs_requests'); const ref='GS-'+String(Date.now()).slice(-6);
- r.unshift({ref,name:clientName.value,phone:clientPhone.value,address:clientAddress.value,date:clientDate.value,need:clientNeed.value,service:'Diagnostic véhicule',atelier:'Atelier Diallo Auto',status:'À examiner'});
- set('gs_requests',r); requestRef.textContent='Référence : '+ref; show('clientSent');
-}
+async function sendRequest(){
+  const { error } = await supabase
+    .from('demande')
+    .insert({
+      client_name: clientName.value,
+      phone: clientPhone.value,
+      service: 'diagnostic véhicule',
+      zone: clientAdresse.value,
+      description: clientNeed.value,
+      statut: 'à examiner'
+    });
+
+  if (error) {
+    alert('Erreur lors de l’envoi de la demande : ' + error.message);
+    return;
+  }
+
+  alert('Demande envoyée avec succès !');
+
+  clientName.value = '';
+  clientPhone.value = '';
+  clientAdresse.value = '';
+  clientDate.value = '';
+  clientNeed.value = '';
+ }
 function renderRequests(){
  const r=get('gs_requests'); requestList.innerHTML=r.length?r.map(x=>`<div class="card"><b>${x.ref} · ${x.service}</b><p class="muted">${x.atelier} · ${x.address||'Adresse non précisée'}</p><span class="badge pending">${x.status}</span></div>`).join(''):'<div class="card">Aucune demande enregistrée.</div>';
 }
