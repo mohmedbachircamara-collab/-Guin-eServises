@@ -97,11 +97,11 @@ async function sendRequest(){
       service: 'diagnostic véhicule',
       zone: clientAddress.value,
       description: clientNeed.value,
-      statut: 'à examiner'
+      status: 'à examiner'
     });
 
   if (error) {
-    alert('Erreur lors de l’envoi : ' + error.message);
+    alert('Erreur Supabase : ' + error.message);
     return;
   }
 
@@ -112,6 +112,8 @@ async function sendRequest(){
   clientAddress.value = '';
   clientDate.value = '';
   clientNeed.value = '';
+
+  show('clientSent');
 }
 function renderRequests(){
  const r=get('gs_requests'); requestList.innerHTML=r.length?r.map(x=>`<div class="card"><b>${x.ref} · ${x.service}</b><p class="muted">${x.atelier} · ${x.address||'Adresse non précisée'}</p><span class="badge pending">${x.status}</span></div>`).join(''):'<div class="card">Aucune demande enregistrée.</div>';
