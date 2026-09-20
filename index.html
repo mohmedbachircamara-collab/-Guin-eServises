@@ -89,19 +89,19 @@ const get=(k,d=[])=>JSON.parse(localStorage.getItem(k)||JSON.stringify(d));
 const set=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');if(id==='reservations')renderRequests();if(id==='admin')renderAdmin();window.scrollTo(0,0)}
 async function sendRequest(){
-  const { error } = await supabase
+  const { error } = await supabaseClient
     .from('demande')
     .insert({
       client_name: clientName.value,
       phone: clientPhone.value,
       service: 'diagnostic véhicule',
-      zone: clientAdresse.value,
+      zone: clientAddress.value,
       description: clientNeed.value,
       statut: 'à examiner'
     });
 
   if (error) {
-    alert('Erreur lors de l’envoi de la demande : ' + error.message);
+    alert('Erreur lors de l’envoi : ' + error.message);
     return;
   }
 
@@ -109,10 +109,10 @@ async function sendRequest(){
 
   clientName.value = '';
   clientPhone.value = '';
-  clientAdresse.value = '';
+  clientAddress.value = '';
   clientDate.value = '';
   clientNeed.value = '';
- }
+}
 function renderRequests(){
  const r=get('gs_requests'); requestList.innerHTML=r.length?r.map(x=>`<div class="card"><b>${x.ref} · ${x.service}</b><p class="muted">${x.atelier} · ${x.address||'Adresse non précisée'}</p><span class="badge pending">${x.status}</span></div>`).join(''):'<div class="card">Aucune demande enregistrée.</div>';
 }
@@ -130,10 +130,9 @@ function renderAdmin(){
 function logout(){show('home');adminUser.value='';adminPass.value=''}
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
-const SUPABASE_URL = https://wstnhrloguuprjdbywqp.supabase.co/rest/v1/;
-const SUPABASE_KEY = sb_publishable_oBhDmOUB4QTrlDAk9LG5mg_u1naesZE;
+const SUPABASE_URL = 'https://wstnhrloguuprjdbywqp.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_oBhDmOUB4QTrlDAk9LG5mg_u1naesZE';
 
 const supabaseClient = supabase.createClient(
   SUPABASE_URL,
@@ -141,4 +140,5 @@ const supabaseClient = supabase.createClient(
 );
 
 console.log("GuinéeServices connecté à Supabase ✅");
-</script></body></html>
+</script>
+
