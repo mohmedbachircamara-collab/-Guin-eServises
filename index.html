@@ -147,15 +147,30 @@ async function renderAdmin(){
 function sendPartner(){
  const r=get('gs_partners');r.unshift({name:pName.value,manager:pManager.value,phone:pPhone.value,address:pAddress.value,service:pService.value,info:pInfo.value,status:'À vérifier'});set('gs_partners',r);show('partnerSent');
 }
-function adminLogin(){
- if(adminUser.value.trim()==='MOHAMED BACHIR CAMARA' && adminPass.value==='DEMO-ADMIN'){loginMsg.textContent='';show('admin')}
- else loginMsg.textContent='Identifiants incorrects.';
+async function adminLogin(){
+  const { error } = await supabaseClient.auth.signInWithPassword({
+    email: adminUser.value.trim(),
+    password: adminPass.value
+  });
+
+  if (error) {
+    loginMsg.textContent = 'Identifiants incorrects.';
+    return;
+  }
+
+  loginMsg.textContent = '';
+  show('admin');
 }
 function renderAdmin(){
  const r=get('gs_requests'),p=get('gs_partners');countRequests.textContent=r.length;countPartners.textContent=p.length;
  adminRequests.innerHTML=r.length?r.map(x=>`<div class="card"><b>${x.ref} · ${x.service}</b><p class="muted">Client : ${x.name||'Non renseigné'} · 📞 ${x.phone||'Non renseigné'}<br>📍 ${x.address||'Non renseignée'}</p><span class="badge pending">${x.status}</span></div>`).join(''):'<div class="card">Aucune demande pour le moment.</div>';
 }
-function logout(){show('home');adminUser.value='';adminPass.value=''}
+async function logout(){
+  await supabaseClient.auth.signOut();
+  show('home');
+  adminUser.value = '';
+  adminPass.value = '';
+    }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
