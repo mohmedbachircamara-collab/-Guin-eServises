@@ -115,9 +115,35 @@ async function sendRequest(){
 
   show('clientSent');
 }
-function renderRequests(){
- const r=get('gs_requests'); requestList.innerHTML=r.length?r.map(x=>`<div class="card"><b>${x.ref} · ${x.service}</b><p class="muted">${x.atelier} · ${x.address||'Adresse non précisée'}</p><span class="badge pending">${x.status}</span></div>`).join(''):'<div class="card">Aucune demande enregistrée.</div>';
-}
+async function renderAdmin(){
+  const { data, error } = await supabaseClient
+    .from('demande')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    adminRequests.innerHTML =
+      '<div class="card">Erreur : ' + error.message + '</div>';
+    return;
+  }
+
+  countRequests.textContent = data.length;
+
+  adminRequests.innerHTML = data.length
+    ? data.map(x => `
+      <div class="card">
+        <b>${x.service}</b>
+        <p class="muted">
+          Client : ${x.client_name}<br>
+          📞 ${x.phone}<br>
+          📍 ${x.zone}<br>
+          📝 ${x.description || 'Aucune description'}
+        </p>
+        <span class="badge pending">${x.status}</span>
+      </div>
+    `).join('')
+    : '<div class="card">Aucune demande pour le moment.</div>';
+  }
 function sendPartner(){
  const r=get('gs_partners');r.unshift({name:pName.value,manager:pManager.value,phone:pPhone.value,address:pAddress.value,service:pService.value,info:pInfo.value,status:'À vérifier'});set('gs_partners',r);show('partnerSent');
 }
