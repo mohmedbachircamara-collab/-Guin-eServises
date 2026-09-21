@@ -1,188 +1,499 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>GuinéeServices — V5</title>
-<style>
-*{box-sizing:border-box}body{margin:0;background:#edf2f8;color:#15233b;font-family:Arial,sans-serif}
-.phone{width:min(410px,100vw);min-height:850px;margin:16px auto;background:#fff;border-radius:28px;overflow:hidden;box-shadow:0 12px 35px #0002;position:relative}
-.screen{display:none}.screen.active{display:block}header{background:#075fe8;color:#fff;padding:21px}
-.brand{font-size:23px;font-weight:800}.small{font-size:12px;opacity:.88;margin-top:5px}
-main{padding:17px 18px 95px}.hero{background:#075fe8;color:#fff;padding:18px;border-radius:17px}
-.search,.card,.provider,.stat{border:1px solid #dfe6ef;border-radius:15px;background:#fff;padding:14px}
-.search{color:#718096;cursor:pointer;margin-top:12px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.card{margin:9px 0}.icon{font-size:27px}.name{font-weight:700;margin-top:7px}h2{font-size:19px;margin:19px 0 11px}
-.muted{font-size:12px;color:#718096;margin-top:4px}.btn{border:0;border-radius:12px;padding:13px 15px;background:#075fe8;color:white;font-weight:700;width:100%;margin-top:12px;cursor:pointer}
-.btn.alt{background:#eef4ff;color:#075fe8}.input,textarea,select{width:100%;padding:13px;border:1px solid #d5deea;border-radius:11px;margin:6px 0;font-size:14px}
-.back{color:#075fe8;font-weight:700;cursor:pointer;margin-bottom:12px}.provider{display:flex;gap:11px;align-items:center;margin:9px 0}
-.avatar{width:50px;height:50px;border-radius:50%;background:#dce9ff;display:grid;place-items:center;font-size:23px}.grow{flex:1}
-.badge{display:inline-block;padding:5px 8px;border-radius:10px;background:#e9f8ee;color:#14713a;font-size:11px;font-weight:700}
-.pending{background:#fff2dc;color:#9a5c00}.price{font-size:20px;font-weight:800;color:#075fe8}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat strong{display:block;font-size:21px;margin-top:5px}
-.lock{text-align:center;font-size:55px;margin:15px 0}.private{background:#f7f9fc;border:1px solid #dfe6ef;border-radius:14px;padding:13px}
-.bottom{position:absolute;bottom:0;left:0;right:0;height:70px;background:#fff;border-top:1px solid #e4e8ef;display:flex;justify-content:space-around;align-items:center}
-.nav{font-size:10px;text-align:center;color:#657187;cursor:pointer}.nav b{display:block;font-size:20px;color:#075fe8}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GuinéeServices</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f5f7fa;
+      color: #222;
+    }
+
+    header {
+      background: #00843d;
+      color: white;
+      padding: 18px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin-bottom: 5px;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 12px;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,.1);
+    }
+
+    nav button {
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      background: #eee;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    nav button:hover {
+      background: #00843d;
+      color: white;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 25px auto;
+      padding: 15px;
+    }
+
+    .section {
+      display: none;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.08);
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 15px;
+    }
+
+    button.primary {
+      background: #00843d;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button.primary:hover {
+      background: #006b31;
+    }
+
+    .error {
+      color: #c62828;
+      margin-top: 10px;
+    }
+
+    .success {
+      color: #00843d;
+      margin-top: 10px;
+    }
+
+    .admin-panel {
+      display: none;
+    }
+
+    .admin-panel.active {
+      display: block;
+    }
+
+    .card {
+      padding: 15px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      background: #fafafa;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      margin-top: 30px;
+      color: #666;
+    }
+  </style>
 </head>
-<body><div class="phone">
 
-<section id="home" class="screen active"><header><div class="brand">🏠 GuinéeServices</div><div class="small">Conakry · Trouvez un atelier ou professionnel</div></header><main>
-<div class="hero"><b>Bienvenue 👋</b><div class="small">Des ateliers partenaires vérifiés, près de vous.</div></div>
-<div class="search" onclick="show('search')">🔎 Rechercher un service, atelier ou quartier</div>
-<h2>Nos services</h2><div class="grid">
-<div class="card" onclick="show('search')"><div class="icon">🔧</div><div class="name">Plomberie</div><div class="muted">Réparation · Installation</div></div>
-<div class="card" onclick="show('search')"><div class="icon">🚗</div><div class="name">Mécanique</div><div class="muted">Entretien · Dépannage</div></div>
-<div class="card" onclick="show('search')"><div class="icon">⚡</div><div class="name">Électricité</div><div class="muted">Dépannage · Installation</div></div>
-<div class="card" onclick="show('search')"><div class="icon">❄️</div><div class="name">Climatisation</div><div class="muted">Entretien · Réparation</div></div></div>
-<h2>Vous avez un atelier ?</h2><div class="card">🏢 <b>Devenir atelier partenaire</b><div class="muted">Recevez de nouveaux clients grâce à GuinéeServices.</div><button class="btn" onclick="show('partner')">Devenir partenaire</button></div>
-</main></section>
+<body>
 
-<section id="search" class="screen"><header><div class="brand">Recherche</div><div class="small">Ateliers partenaires à Conakry</div></header><main>
-<div class="back" onclick="show('home')">← Accueil</div><input id="q" class="input" placeholder="Service recherché"><input class="input" placeholder="Quartier : Matam, Kipé, Lambanyi...">
-<div class="provider"><div class="avatar">🏢</div><div class="grow"><b>Atelier Diallo Auto</b><div class="muted">🚗 Mécanique · ⭐ 4,8</div><span class="badge">✓ Partenaire vérifié</span></div><button class="btn" style="width:auto;margin:0" onclick="show('workshop')">Voir</button></div>
-<div class="provider"><div class="avatar">🔧</div><div class="grow"><b>Diallo Plomberie</b><div class="muted">🔧 Plomberie · ⭐ 4,7</div><span class="badge">✓ Partenaire vérifié</span></div><button class="btn" style="width:auto;margin:0" onclick="show('workshop')">Voir</button></div>
-</main></section>
+<header>
+  <h1>GuinéeServices</h1>
+  <p>Votre plateforme de services en Guinée</p>
+</header>
 
-<section id="workshop" class="screen"><header><div class="brand">Atelier partenaire</div></header><main>
-<div class="back" onclick="show('search')">← Retour</div><div class="card" style="text-align:center"><div class="avatar" style="margin:auto;width:75px;height:75px;font-size:35px">🏢</div><h2>Atelier Diallo Auto</h2><div>⭐ 4,8 · 156 avis</div><p class="muted">✓ Partenaire vérifié · 📍 Matam, Conakry</p></div>
-<h2>Services</h2><div class="card">Diagnostic véhicule <b style="float:right">100 000 GNF</b></div>
-<div class="card">Vidange <b style="float:right">150 000 GNF</b></div><button class="btn" onclick="show('booking')">📅 Faire une demande</button>
-</main></section>
+<nav>
+  <button onclick="showSection('accueil')">Accueil</button>
+  <button onclick="showSection('services')">Services</button>
+  <button onclick="showSection('demande')">Faire une demande</button>
+  <button onclick="showSection('admin')">Admin</button>
+</nav>
 
-<section id="booking" class="screen"><header><div class="brand">Votre demande</div><div class="small">Votre demande est enregistrée sur cet appareil.</div></header><main>
-<div class="back" onclick="show('workshop')">← Retour</div><div class="card"><b>Diagnostic véhicule</b><p class="muted">Atelier souhaité : Atelier Diallo Auto</p><div class="price">100 000 GNF</div></div>
-<input id="clientName" class="input" placeholder="Nom complet"><input id="clientPhone" class="input" placeholder="Numéro de téléphone"><input id="clientAddress" class="input" placeholder="Quartier / adresse"><input id="clientDate" class="input" type="date"><textarea id="clientNeed" rows="3" placeholder="Décrivez votre besoin"></textarea>
-<button class="btn" onclick="sendRequest()">Envoyer ma demande</button></main></section>
+<main>
 
-<section id="clientSent" class="screen"><header><div class="brand">Demande reçue</div></header><main style="text-align:center">
-<div class="lock">📨</div><h2>Votre demande a été enregistrée</h2><p id="requestRef" class="muted"></p><p class="muted">GuinéeServices examinera votre demande avant de contacter l'atelier.</p>
-<button class="btn" onclick="show('reservations')">Voir mes demandes</button></main></section>
+  <!-- ACCUEIL -->
+  <section id="accueil" class="section active">
+    <h2>Bienvenue sur GuinéeServices 🇬🇳</h2>
+    <br>
+    <p>
+      Trouvez facilement des services et envoyez vos demandes
+      depuis notre plateforme.
+    </p>
+  </section>
 
-<section id="reservations" class="screen"><header><div class="brand">Mes demandes</div></header><main>
-<div class="back" onclick="show('home')">← Accueil</div><div id="requestList"></div>
-</main></section>
+  <!-- SERVICES -->
+  <section id="services" class="section">
+    <h2>Nos services</h2>
+    <br>
 
-<section id="partner" class="screen"><header><div class="brand">Devenir partenaire</div><div class="small">Votre demande est enregistrée sur cet appareil.</div></header><main>
-<div class="back" onclick="show('home')">← Retour</div><input id="pName" class="input" placeholder="Nom de l'atelier"><input id="pManager" class="input" placeholder="Nom du responsable"><input id="pPhone" class="input" placeholder="Numéro professionnel"><input id="pAddress" class="input" placeholder="Quartier / adresse">
-<select id="pService"><option>Service principal</option><option>Mécanique</option><option>Plomberie</option><option>Électricité</option><option>Climatisation</option><option>Autre</option></select>
-<textarea id="pInfo" rows="3" placeholder="Présentez votre atelier"></textarea><button class="btn" onclick="sendPartner()">Envoyer la demande de partenariat</button></main></section>
+    <div class="card">
+      <h3>Services professionnels</h3>
+      <p>Découvrez les différents services disponibles.</p>
+    </div>
 
-<section id="partnerSent" class="screen"><header><div class="brand">Demande envoyée</div></header><main style="text-align:center"><div class="lock">🏢</div><h2>Dossier enregistré</h2><p class="muted">La demande de partenariat est conservée sur cet appareil dans cette version.</p><button class="btn" onclick="show('home')">Accueil</button></main></section>
+    <div class="card">
+      <h3>Demandes de services</h3>
+      <p>Envoyez votre demande directement depuis GuinéeServices.</p>
+    </div>
+  </section>
 
-<section id="adminLogin" class="screen"><header><div class="brand">🔐 Connexion privée</div><div class="small">Espace administrateur</div></header><main>
-<div class="lock">🔒</div><h2 style="text-align:center">Accès réservé</h2><input id="adminUser" class="input" placeholder="Identifiant"><input id="adminPass" class="input" type="password" placeholder="Mot de passe"><button class="btn" onclick="adminLogin()">Se connecter</button><p id="loginMsg" class="muted" style="text-align:center"></p>
-</main></section>
+  <!-- DEMANDE -->
+  <section id="demande" class="section">
+    <h2>Faire une demande</h2>
+    <br>
 
-<section id="admin" class="screen"><header><div class="brand">👑 Administration</div><div class="small">MOHAMED BACHIR CAMARA · Propriétaire</div></header><main>
-<div class="hero"><b>Boîte de réception GuinéeServices</b><div class="small">Demandes enregistrées sur cet appareil</div></div>
-<h2>📥 Demandes clients</h2><div id="adminRequests"></div>
-<h2>📊 Tableau de bord</h2><div class="stats"><div class="stat">Demandes<strong id="countRequests">0</strong><div class="muted">enregistrées</div></div><div class="stat">Partenariats<strong id="countPartners">0</strong><div class="muted">dossiers</div></div></div>
-<button class="btn danger" onclick="logout()">Se déconnecter</button>
-</main></section>
+    <form id="demandeForm">
 
-<nav class="bottom"><div class="nav" onclick="show('home')"><b>⌂</b>Accueil</div><div class="nav" onclick="show('search')"><b>⌕</b>Recherche</div><div class="nav" onclick="show('reservations')"><b>▣</b>Demandes</div><div class="nav" onclick="show('adminLogin')"><b>🔐</b>Admin</div></nav>
-</div>
+      <label>Nom</label>
+      <input type="text" id="nom" required>
+
+      <label>Téléphone</label>
+      <input type="tel" id="telephone" required>
+
+      <label>Service demandé</label>
+      <input type="text" id="service" required>
+
+      <label>Description</label>
+      <textarea id="description" rows="5" required></textarea>
+
+      <button class="primary" type="submit">
+        Envoyer la demande
+      </button>
+
+      <p id="demandeMsg"></p>
+
+    </form>
+  </section>
+
+  <!-- ADMIN -->
+  <section id="admin" class="section">
+
+    <!-- CONNEXION ADMIN -->
+    <div id="adminLogin">
+
+      <h2>Connexion Administrateur</h2>
+      <br>
+
+      <label>Email</label>
+      <input
+        type="email"
+        id="adminEmail"
+        placeholder="Votre email Supabase"
+        required
+      >
+
+      <label>Mot de passe</label>
+      <input
+        type="password"
+        id="adminPassword"
+        placeholder="Votre mot de passe"
+        required
+      >
+
+      <button class="primary" onclick="adminLogin()">
+        Se connecter
+      </button>
+
+      <p id="loginMsg"></p>
+
+    </div>
+
+    <!-- ESPACE ADMIN -->
+    <div id="adminPanel" class="admin-panel">
+
+      <h2>Espace Administrateur</h2>
+
+      <br>
+
+      <p>
+        Nombre de demandes :
+        <strong id="nombreDemandes">0</strong>
+      </p>
+
+      <br>
+
+      <button class="primary" onclick="loadDemandes()">
+        Actualiser les demandes
+      </button>
+
+      <button
+        class="primary"
+        onclick="adminLogout()"
+        style="margin-left:8px;"
+      >
+        Déconnexion
+      </button>
+
+      <div id="demandesContainer"></div>
+
+    </div>
+
+  </section>
+
+</main>
+
+<footer>
+  <p>© 2026 GuinéeServices</p>
+</footer>
+
 
 <script>
-const get=(k,d=[])=>JSON.parse(localStorage.getItem(k)||JSON.stringify(d));
-const set=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
-function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');if(id==='reservations')renderRequests();if(id==='admin')renderAdmin();window.scrollTo(0,0)}
-async function sendRequest(){
-  const { error } = await supabaseClient
-    .from('demande')
-    .insert({
-      client_name: clientName.value,
-      phone: clientPhone.value,
-      service: 'diagnostic véhicule',
-      zone: clientAddress.value,
-      description: clientNeed.value,
-      status: 'à examiner'
+
+  /* =====================================================
+     CONFIGURATION SUPABASE
+     ===================================================== */
+
+  const SUPABASE_URL = "https://wstnhrloguuprjdbywqp.supabase.co";
+
+  const SUPABASE_ANON_KEY = "sb_publishable_oBhDmOUB4QTrlDAk9LG5mg_u1naesZE";
+
+  const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
+
+
+  /* =====================================================
+     NAVIGATION
+     ===================================================== */
+
+  function showSection(sectionId) {
+
+    document.querySelectorAll(".section").forEach(section => {
+      section.classList.remove("active");
     });
 
-  if (error) {
-    alert('Erreur Supabase : ' + error.message);
-    return;
-  }
+    const section = document.getElementById(sectionId);
 
-  alert('Demande envoyée avec succès !');
-
-  clientName.value = '';
-  clientPhone.value = '';
-  clientAddress.value = '';
-  clientDate.value = '';
-  clientNeed.value = '';
-
-  show('clientSent');
-}
-async function renderAdmin(){
-  const { data, error } = await supabaseClient
-    .from('demande')
-    .select('*')
-    .order('created_at', { ascending: false });
-
-  if (error) {
-    adminRequests.innerHTML =
-      '<div class="card">Erreur : ' + error.message + '</div>';
-    return;
-  }
-
-  countRequests.textContent = data.length;
-
-  adminRequests.innerHTML = data.length
-    ? data.map(x => `
-      <div class="card">
-        <b>${x.service}</b>
-        <p class="muted">
-          Client : ${x.client_name}<br>
-          📞 ${x.phone}<br>
-          📍 ${x.zone}<br>
-          📝 ${x.description || 'Aucune description'}
-        </p>
-        <span class="badge pending">${x.status}</span>
-      </div>
-    `).join('')
-    : '<div class="card">Aucune demande pour le moment.</div>';
-  }
-function sendPartner(){
- const r=get('gs_partners');r.unshift({name:pName.value,manager:pManager.value,phone:pPhone.value,address:pAddress.value,service:pService.value,info:pInfo.value,status:'À vérifier'});set('gs_partners',r);show('partnerSent');
-}
-async function adminLogin(){
-  const { error } = await supabaseClient.auth.signInWithPassword({
-    email: adminUser.value.trim(),
-    password: adminPass.value
-  });
-
-  if (error) {
-    loginMsg.textContent = error.message;
-    return;
-  }
-
-  loginMsg.textContent = '';
-  show('admin');
-}
-
-  loginMsg.textContent = '';
-  show('admin');
-}
-
-async function logout(){
-  await supabaseClient.auth.signOut();
-  show('home');
-  adminUser.value = '';
-  adminPass.value = '';
+    if (section) {
+      section.classList.add("active");
     }
-</script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-const SUPABASE_URL = 'https://wstnhrloguuprjdbywqp.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_oBhDmOUB4QTrlDAk9LG5mg_u1naesZE';
+  }
 
-const supabaseClient = supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
 
-console.log("GuinéeServices connecté à Supabase ✅");
-</script>
+  /* =====================================================
+     CONNEXION ADMIN SUPABASE
+     ===================================================== */
+
+  async function adminLogin() {
+
+    const email = document.getElementById("adminEmail").value.trim();
+
+    const password =
+      document.getElementById("adminPassword").value;
+
+    const loginMsg =
+      document.getElementById("loginMsg");
+
+    loginMsg.textContent = "";
+    loginMsg.className = "";
+
+    if (!email || !password) {
+
+      loginMsg.textContent =
+        "Veuillez remplir l'email et le mot de passe.";
+
+      loginMsg.className = "error";
+
+      return;
+    }
+
+    loginMsg.textContent = "Connexion en cours...";
+
+    try {
+
+      const { data, error } =
+        await supabaseClient.auth.signInWithPassword({
+          email: email,
+          password: password
+        });
+
+      if (error) {
+
+        console.error("Erreur Supabase :", error);
+
+        loginMsg.textContent =
+          "Identifiants incorrects ou problème de connexion.";
+
+        loginMsg.className = "error";
+
+        return;
+      }
+
+      console.log("Utilisateur connecté :", data.user);
+
+      loginMsg.textContent =
+        "Connexion réussie.";
+
+      loginMsg.className = "success";
+
+      document.getElementById("adminLogin").style.display = "none";
+
+      document
+        .getElementById("adminPanel")
+        .classList.add("active");
+
+      await loadDemandes();
+
+    } catch (error) {
+
+      console.error(error);
+
+      loginMsg.textContent =
+        "Une erreur est survenue lors de la connexion.";
+
+      loginMsg.className = "error";
+    }
+  }
+
+
+  /* =====================================================
+     VÉRIFIER LA SESSION
+     ===================================================== */
+
+  async function checkAdminSession() {
+
+    const {
+      data: { session }
+    } = await supabaseClient.auth.getSession();
+
+    if (session) {
+
+      document.getElementById("adminLogin").style.display = "none";
+
+      document
+        .getElementById("adminPanel")
+        .classList.add("active");
+
+      await loadDemandes();
+
+    } else {
+
+      document.getElementById("adminLogin").style.display = "block";
+
+      document
+        .getElementById("adminPanel")
+        .classList.remove("active");
+    }
+  }
+
+
+  /* =====================================================
+     DÉCONNEXION ADMIN
+     ===================================================== */
+
+  async function adminLogout() {
+
+    const { error } =
+      await supabaseClient.auth.signOut();
+
+    if (error) {
+
+      console.error(error);
+
+      return;
+    }
+
+    document.getElementById("adminLogin").style.display = "block";
+
+    document
+      .getElementById("adminPanel")
+      .classList.remove("active");
+
+    document.getElementById("adminEmail").value = "";
+
+    document.getElementById("adminPassword").value = "";
+
+    document.getElementById("loginMsg").textContent =
+      "Vous êtes déconnecté.";
+
+    document.getElementById("loginMsg").className =
+      "success";
+  }
+
+
+  /* =====================================================
+     CHARGER LES DEMANDES
+     ===================================================== */
+
+  async function loadDemandes() {
+
+    const container =
+      document.getElementById("demandesContainer");
+
+    const compteur =
+      document.getElementById("nombreDemandes");
+
+    container.innerHTML = "Chargement...";
+
+    const { data, error } =
+      await supabaseClient
+        .from("demandes")
+        .select("*")
+        .order("created_at", {
+          ascending: false
+        });
+
+    if (error) {
+
+      console.error("Erreur demandes :", error);
+
+      container.innerHTML =
+        "<p class='error'>Impossible de charger les demandes.</p>";
+
+      return;
+    }
+
+    compteur.textContent = data.length;
+
+    container.innerHTML = "";
+
+    if (data.length === 0) {
+
+      container.innerHTML =
+        "<p>Aucune demande pour le moment.</p>";
+
+      return;
+    }
+
+    data.forEach(demande => {
+
 
