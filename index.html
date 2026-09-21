@@ -154,7 +154,7 @@ async function adminLogin(){
   });
 
   if (error) {
-    loginMsg.textContent = 'Identifiants incorrects.';
+    loginMsg.textContent = error.message;
     return;
   }
 
