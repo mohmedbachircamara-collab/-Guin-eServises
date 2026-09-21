@@ -162,18 +162,10 @@ async function adminLogin(){
   show('admin');
 }
 
-  if (error) {
-    loginMsg.textContent = 'Identifiants incorrects.';
-    return;
-  }
-
   loginMsg.textContent = '';
   show('admin');
 }
-function renderAdmin(){
- const r=get('gs_requests'),p=get('gs_partners');countRequests.textContent=r.length;countPartners.textContent=p.length;
- adminRequests.innerHTML=r.length?r.map(x=>`<div class="card"><b>${x.ref} · ${x.service}</b><p class="muted">Client : ${x.name||'Non renseigné'} · 📞 ${x.phone||'Non renseigné'}<br>📍 ${x.address||'Non renseignée'}</p><span class="badge pending">${x.status}</span></div>`).join(''):'<div class="card">Aucune demande pour le moment.</div>';
-}
+
 async function logout(){
   await supabaseClient.auth.signOut();
   show('home');
